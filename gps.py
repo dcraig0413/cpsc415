@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 '''
-CPSC 415 -- Homework #2 template
-Stephen Davies, University of Mary Washington, fall 2021
+CPSC 415 -- Homework #2
+David Craig, University of Mary Washington, fall 2021
 '''
 
 from atlas import Atlas
