@@ -1,6 +1,6 @@
 '''
 CPSC 415 -- Homework #2 support file
-Stephen Davies, University of Mary Washington, fall 2021
+David Craig, University of Mary Washington, fall 2021
 '''
 
 import numpy as np
