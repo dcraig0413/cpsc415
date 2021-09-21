@@ -28,7 +28,6 @@ def find_best_path(atlas):
     #array of all false values to keep track of when a city is hit
     visited = np.zeros(atlas.get_num_cities())
     path = set()
-    print(atlas._adj_mat)
 
     while True:
         current_shortest_path = math.inf
