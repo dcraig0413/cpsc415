@@ -27,8 +27,8 @@ def find_best_path(atlas):
 
     #array of all false values to keep track of when a city is hit
     visited = np.zeros(atlas.get_num_cities())
-    path = set()
-
+    path = list()
+    
     while True:
         current_shortest_path = math.inf
         current_shortest_path_index = -1
@@ -37,27 +37,30 @@ def find_best_path(atlas):
         for i in range(len(crow_path_costs)):
             #keep track of the path with the lowest cost
             if crow_path_costs[i] < current_shortest_path and visited[i] == 0:
+                visited[i] = 1
                 current_shortest_path = crow_path_costs[i]
                 current_shortest_path_index = i
+
         #if there is no path to goal, return a None tuple
         if current_shortest_path_index == -1:
             return None, None
 
-        #once goal node has been reached, use shortest path index to return that path
-        elif current_shortest_path_index == atlas.get_num_cities()-1:
-            return list(path), path_costs[current_shortest_path_index]
-
-        #for all neighboring cities that a city has a path to
+          #for all neighboring cities that a city has a path to
         for i in range(len(atlas._adj_mat[current_shortest_path_index])):
             #if neighbor hasn't been visited
-            if atlas._adj_mat[current_shortest_path_index][i] != 0 and not visited[i]:
+            if atlas._adj_mat[current_shortest_path_index][i] != 0 and visited[i] == 0:
                 #update distance from here to next neighboring city
                 if path_costs[current_shortest_path_index] + atlas._adj_mat[current_shortest_path_index][i] < path_costs[i]:
                     path_costs[i] = path_costs[current_shortest_path_index] + atlas._adj_mat[current_shortest_path_index][i]
                     crow_path_costs[i] = path_costs[i] + atlas.get_crow_flies_dist(0,atlas.get_num_cities()-1)
                     atlas.get_road_dist(current_shortest_path_index,atlas.get_num_cities()-1)
-                    path.add(i)
-                visited[current_shortest_path_index] = 1
+        #once goal node has been reached, use shortest path index to return that path
+        if current_shortest_path_index == atlas.get_num_cities()-1:
+            return path, path_costs[current_shortest_path_index]
+
+        path.append(current_shortest_path_index)
+
+      
 
 
 if __name__ == '__main__':
@@ -87,6 +90,7 @@ if __name__ == '__main__':
 
     path, cost = find_best_path(usa)
     if path != None:
+        path.append(usa.get_num_cities()-1)
         print('Best path from {} to {} costs {}: {}.'.format(0,
             usa.get_num_cities()-1, cost, path))
     else:
